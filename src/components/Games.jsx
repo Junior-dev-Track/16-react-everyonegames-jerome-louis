@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import Card from './Card';
+import { v4 as uuid } from "uuid";
 
 const Games = () => {
     // state
@@ -17,7 +19,7 @@ const Games = () => {
             <h1>Games</h1>
             <ul>
                 {data.map((game) => (
-                    <li key={game.id}>{game.name}</li>
+                    <Card key={uuid()} gameName={game}/>
                 ))}
             </ul>
         </div>
