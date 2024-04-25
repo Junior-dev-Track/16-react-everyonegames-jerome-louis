@@ -11,8 +11,12 @@ const Games = () => {
 
     // effect
     useEffect(()=>{
-        axios.get("https://api.rawg.io/api/games?key=0db84bd7a31f4972903b6ce94a1107ba")
-        .then((res)=>setData(res.data));
+        const response = axios.get(`${process.env.VITE_API_URL}/endpoint`, {
+            params: {
+              api_key: process.env.VITE_API_KEY
+            }
+          });
+          setData(response.data);
     }, [])
 
 
