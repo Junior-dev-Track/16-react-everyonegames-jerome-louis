@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Categories from './pages/Categories';
+import Genre from './pages/Genre';
 
 
 // Use the Home component in your routing setup
@@ -9,7 +9,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/categories" element={<Categories />} />
+        <Route path="/genre" element={<Genre />} />
         {/* path "*" si url ne correspond a rien de déclaré */}
         <Route path="*" element={<Home />} />
       </Routes>

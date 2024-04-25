@@ -7,8 +7,8 @@ const Navigation = () => {
                <NavLink to="/">  {/* Correspond path router */}
                     <li>Home</li>
                 </NavLink>
-                <NavLink to="/categories">
-                    <li>Categories</li>
+                <NavLink to="/genre">
+                    <li>Genre</li>
                 </NavLink>
             </ul>
         </div>

@@ -6,7 +6,7 @@ const Games = () => {
     // state
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+    const [ setTotalPages] = useState(1);
 
     // effect
     useEffect(() => {
