@@ -1,32 +1,24 @@
-import axios from "axios";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const Games = () => {
     // state
     const [data, setData] = useState([]);
 
-    //behaviour
-
-
     // effect
-    useEffect(()=>{
-        const response = axios.get(`${process.env.VITE_API_URL}/endpoint`, {
-            params: {
-              api_key: process.env.VITE_API_KEY
-            }
-          });
-          setData(response.data);
-    }, [])
-
+    useEffect(() => {
+        fetch(`https://api.rawg.io/api/games?key=${import.meta.env.VITE_API_KEY}`)
+        .then(response => response.json())
+        .then(data => setData(data.results))
+        .catch(error => console.error('Error fetching data:', error));
+    }, []);
 
     return (
         <div className="games">
             <h1>Games</h1>
             <ul>
-                {
-                    data.map((game)=> <li>{game.results.name}</li>)
-                }
+                {data.map((game) => (
+                    <li key={game.id}>{game.name}</li>
+                ))}
             </ul>
         </div>
     );
