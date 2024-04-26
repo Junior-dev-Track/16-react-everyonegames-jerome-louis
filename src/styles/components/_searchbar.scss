@@ -1,0 +1,40 @@
+@import "../base/colors";
+
+input[type="text"] {
+  width: 800px;
+  height: 45px;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  background-color: $light-brown;
+  color: $light-grey;
+  transition: background-color 0.2s ease;
+  background-image: url('data:image/png;base64,...'); // Replace with your Base64 data URL
+  background-repeat: no-repeat;
+  background-position: 10px center; // Adjust as needed
+  padding-left: 40px; // Adjust as needed
+
+  &:hover {
+    background-color: $white;
+  }
+}
+
+.searchSuggestions {
+  position: absolute;
+  width: 800px; // Match the width of the input field
+  background-color: $white;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 20px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); // Optional: Add a shadow effect
+}
+
+.searchSuggestions li {
+  padding: 10px 20px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $light-grey;
+  }
+}

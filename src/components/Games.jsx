@@ -9,15 +9,14 @@ const Games = () => {
 
     // effect
     useEffect(() => {
-        fetch(`https://api.rawg.io/api/games?key=${import.meta.env.VITE_API_KEY}&page=${page}`)
-        .then(response => response.json())
-        .then(data => {
-            setData(prevData => [...prevData, ...data.results]);
-        })
-        .catch(error => console.error('Error fetching data:', error));
+        fetch(`https://api.rawg.io/api/games?key=${import.meta.env.VITE_API_KEY}&page=${page}&page_size=20`)
+            .then(response => response.json())
+            .then(data => {
+                setData(prevData => [...prevData, ...data.results]);
+            })
+            .catch(error => console.error('Error fetching data:', error));
         setPage(prevPage => prevPage + 1);
     }, [page]);
-    
 
     // Scroll event handler
     const handleScroll = () => {
@@ -27,9 +26,6 @@ const Games = () => {
             setPage(prevPage => prevPage + 1);
         }
     };
-    
-    
-    
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
