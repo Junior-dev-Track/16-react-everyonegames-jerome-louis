@@ -1,2 +1,52 @@
-.games{
+@import "../base/colors";
+@import "../base/global";
+@import "../base/typography";
+
+.games {
+
+    h2{
+        font-family: $dm-font-family;
+        font-size: $dm-font-size;
+        font-weight: $dm-font-weight;
+        color: $dm-color;
+        text-align: center;
+    }
+    ul {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap : 2rem;
+        padding : 2rem 0;
+    }
+
+    .cardWrapper{
+        border-radius: 10%;
+        background-color: $light-black;
+        width : 80%;
+
+    .card {
+
+        img{
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            border-top-left-radius : 10%;
+            border-top-right-radius : 10%;
+        }
+
+        .infos{
+            width:100%;
+            height: 5rem;
+            text-align: center;
+            padding: 0.5rem 0 ;
+
+            h2{
+                font-family: $dm-font-family;
+                font-size: 1.2em;
+                font-weight: $dm-font-weight;
+                color: $turquoise;
+
+            }
+        }
+    }
+}
 }

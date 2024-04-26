@@ -1,5 +1,10 @@
-*,
-*::before,
-*::after {
+@import "./colors";
+
+* {
   box-sizing: border-box;
+  max-width : 1200px;
+}
+
+html{
+  background-color: $black;
 }

@@ -6,7 +6,6 @@ const Games = () => {
     // state
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);
-    const [ setTotalPages] = useState(1);
 
     // effect
     useEffect(() => {
@@ -14,10 +13,11 @@ const Games = () => {
         .then(response => response.json())
         .then(data => {
             setData(prevData => [...prevData, ...data.results]);
-            setTotalPages(data.count / 20); // Assuming 20 items per page
         })
         .catch(error => console.error('Error fetching data:', error));
+        setPage(prevPage => prevPage + 1);
     }, [page]);
+    
 
     // Scroll event handler
     const handleScroll = () => {
@@ -38,7 +38,7 @@ const Games = () => {
 
     return (
         <div className="games">
-            <h1>Games</h1>
+            <h2>All games</h2>
             <ul>
                 {data.map((game) => (
                     <Card key={uuid()} game={game}/>
