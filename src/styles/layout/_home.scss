@@ -84,6 +84,17 @@
                 color: $turquoise;
 
             }
+
+            ul{
+                padding : 1rem;
+
+                li{
+                font-family: $dm-font-family;
+                font-size: 0.7em;
+                font-weight: $dm-font-weight;
+                color: $turquoise;
+                }
+            }
         }
     }
 }
