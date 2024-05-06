@@ -9,6 +9,8 @@ import { FaApple } from "react-icons/fa";
 import { FaLinux } from "react-icons/fa";
 import { SiNintendo } from "react-icons/si";
 import { IoLogoAndroid } from "react-icons/io";
+import { FaStar } from "react-icons/fa";
+import { FaCalendarAlt } from "react-icons/fa";
 
 const Card = ({ game, onClick }) => {
     const [isHovered, setIsHovered] = useState(false);
@@ -39,8 +41,8 @@ const Card = ({ game, onClick }) => {
                         ))}
                     </ul>
                     <div className={`moreInfo ${isHovered? 'visible' : ''}`}>
-                        <p>{game.released}🗓️</p>
-                        <p>{game.rating}⭐</p>
+                        <p>{game.released} <FaCalendarAlt color="white"fontSize="1em" /></p>
+                        <p>{game.rating} <FaStar color="orange" fontSize="1em" /></p>
                     </div>
                 </div>
             </li>
