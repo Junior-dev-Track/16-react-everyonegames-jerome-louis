@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import '../styles/layout/_header.scss';
-// Import Link from react-router-dom if you're using it for navigation
-// import { Link } from 'react-router-dom';
 
 const SearchBar = () => {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState("");
     const [isFocused, setIsFocused] = useState(false);
+    const navigate = useNavigate(); // Use the useNavigate hook
 
     useEffect(() => {
         if (search) {
@@ -23,11 +23,12 @@ const SearchBar = () => {
         setSearch("");
     };
 
-    const handleGameClick = (gameId) => {
-        // Here you can handle navigation or any other action on game click
-        console.log("Clicked on game with ID:", gameId);
-        // Navigate using a router or simply log for now
+    const handleGameClick = (gameId, event) => {
+        event.stopPropagation(); // Prevent the event from bubbling up
+        console.log("Navigating to game ID:", gameId);
+        navigate(`/game/${gameId}`);
     };
+
 
     return (
         <div className="searchBarContainer">
@@ -43,19 +44,21 @@ const SearchBar = () => {
                         }
                     }}
                     onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
+                    //onBlur={() => setIsFocused(false)}
                 />
                 {isFocused && (
                     <ul className="searchSuggestions">
                         {data.map(game => (
                             <li key={game.id}>
-                                {/* Making each game clickable */}
-                                <button onClick={() => handleGameClick(game.id)}>
+                                <button onClick={(e) => handleGameClick(game.id, e)}
+                                        style={{all: 'unset', cursor: 'pointer'}}>
                                     {game.name}
                                 </button>
+
                             </li>
                         ))}
                     </ul>
+
                 )}
             </div>
         </div>
