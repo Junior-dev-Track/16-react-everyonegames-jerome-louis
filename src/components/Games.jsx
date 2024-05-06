@@ -13,15 +13,21 @@ const Games = () => {
     // effect
     useEffect(() => {
         if (!renderAfterCalled.current) {
-        fetch(`https://api.rawg.io/api/games?key=${import.meta.env.VITE_API_KEY}&page=&page=1&page_size=12`)
-        .then(response => response.json())
-        .then(data => {
-            setData(prevData => [...prevData, ...data.results]);
-        })
-        .catch(error => console.error('Error fetching data:', error));
+            fetch(`https://api.rawg.io/api/games?key=${import.meta.env.VITE_API_KEY}&page=1&page_size=12`)
+           .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+           .then(data => {
+                setData(prevData => [...prevData,...data.results]);
+            })
+           .catch(error => console.error('Error fetching data:', error));
         }
         renderAfterCalled.current = true;
-    });
+    }, []);
+    
 
     const handleGameClick = (gameId) => {
         navigate(`/game/${gameId}`);
