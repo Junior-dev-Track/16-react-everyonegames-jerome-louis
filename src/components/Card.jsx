@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { v4 as uuid } from "uuid";
+import { useState } from "react";
 import { FaWindows } from "react-icons/fa";
 import { FaPlaystation } from "react-icons/fa";
 import { FaXbox } from "react-icons/fa";
@@ -10,8 +11,14 @@ import { SiNintendo } from "react-icons/si";
 import { IoLogoAndroid } from "react-icons/io";
 
 const Card = ({ game, onClick }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => setIsHovered(false);
+
+
     return (
-        <div className="cardWrapper" onClick={onClick}>
+        <div className="cardWrapper" onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <li className="card">
                 <img src={game.background_image} alt="Game image" />
                 <div className="infos">
@@ -31,6 +38,10 @@ const Card = ({ game, onClick }) => {
                             </li>
                         ))}
                     </ul>
+                    <div className={`moreInfo ${isHovered? 'visible' : ''}`}>
+                        <p>{game.released}🗓️</p>
+                        <p>{game.rating}⭐</p>
+                    </div>
                 </div>
             </li>
         </div>
