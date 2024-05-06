@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 const Games = () => {
     // state
     const [data, setData] = useState([]);
+    // eslint-disable-next-line no-unused-vars
     const [page, setPage] = useState(1);
 
     // effect
@@ -15,21 +16,21 @@ const Games = () => {
             setData(prevData => [...prevData, ...data.results]);
         })
         .catch(error => console.error('Error fetching data:', error));
-    }, [page]);
+    },[page]);
 
     // Scroll event handler
-    const handleScroll = () => {
-        const threshold = 200; // Distance from the bottom of the page to trigger the fetch
-        const isNearBottom = window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - threshold;
-        if (isNearBottom) {
-            setPage(prevPage => prevPage + 1);
-        }
-    };
+    // const handleScroll = () => {
+    //     const threshold = 200; // Distance from the bottom of the page to trigger the fetch
+    //     const isNearBottom = window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - threshold;
+    //     if (isNearBottom) {
+    //         setPage(prevPage => prevPage + 1);
+    //     }
+    // };
 
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    // useEffect(() => {
+    //     window.addEventListener('scroll', handleScroll);
+    //     return () => window.removeEventListener('scroll', handleScroll);
+    // }, []);
 
     return (
         <div className="games">
