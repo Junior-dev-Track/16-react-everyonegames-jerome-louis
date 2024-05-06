@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import '../styles/layout/_header.scss';
+// Import Link from react-router-dom if you're using it for navigation
+// import { Link } from 'react-router-dom';
 
 const SearchBar = () => {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState("");
-    const [isFocused, setIsFocused] = useState(false); // Add this line
+    const [isFocused, setIsFocused] = useState(false);
 
     useEffect(() => {
         if (search) {
@@ -21,6 +23,12 @@ const SearchBar = () => {
         setSearch("");
     };
 
+    const handleGameClick = (gameId) => {
+        // Here you can handle navigation or any other action on game click
+        console.log("Clicked on game with ID:", gameId);
+        // Navigate using a router or simply log for now
+    };
+
     return (
         <div className="searchBarContainer">
             <div>
@@ -34,13 +42,18 @@ const SearchBar = () => {
                             searchGames();
                         }
                     }}
-                    onFocus={() => setIsFocused(true)} // Add this line
-                    onBlur={() => setIsFocused(false)} // Add this line
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
                 />
-                {isFocused && ( // Add this line
+                {isFocused && (
                     <ul className="searchSuggestions">
                         {data.map(game => (
-                            <li key={game.id}>{game.name}</li>
+                            <li key={game.id}>
+                                {/* Making each game clickable */}
+                                <button onClick={() => handleGameClick(game.id)}>
+                                    {game.name}
+                                </button>
+                            </li>
                         ))}
                     </ul>
                 )}

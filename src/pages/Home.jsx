@@ -4,11 +4,10 @@ import Games from '../components/Games'
 
 const Home = () => {
     return (
-        <div>
-            <Header />
-            <Navigation />
-            <h1>Home</h1>
-            <Games />
+        <div className="homeContainer">
+            <Header className="header" />
+            <Navigation className="navigation" />
+            <Games className="games" />
         </div>
     );
 };

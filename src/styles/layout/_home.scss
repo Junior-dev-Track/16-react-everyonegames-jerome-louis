@@ -2,6 +2,37 @@
 @import "../base/global";
 @import "../base/typography";
 
+.homeContainer {
+    display: grid;
+    grid-template-columns: 1fr 2fr; // Creates a grid with two columns
+    grid-template-rows: auto 1fr; // Specifies the rows heights, first row auto-sized, second row takes the remaining space
+
+    .header {
+        grid-column: 1/3;
+        grid-row: 1/2;
+    }
+
+    .navigation {
+        grid-column: 1/2;
+        grid-row: 1/3;
+    }
+
+    .games {
+        grid-row: 2/3;
+        grid-column: 2/3;
+    }
+}
+
+.navigation{
+    li{
+        font-family: $dm-font-family;
+        font-size: $dm-font-size;
+        font-weight: $dm-font-weight;
+        color: $dm-color;
+        text-align: center;
+    }
+}
+
 .games {
 
     h2{
