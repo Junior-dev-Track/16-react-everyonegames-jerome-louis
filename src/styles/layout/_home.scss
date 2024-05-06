@@ -30,6 +30,13 @@
         font-weight: $dm-font-weight;
         color: $dm-color;
         text-align: center;
+        text-decoration: none;
+    }
+}
+
+.navigation {
+    a {
+        text-decoration: none;
     }
 }
 
