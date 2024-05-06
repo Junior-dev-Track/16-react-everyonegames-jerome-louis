@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Card from './Card';
 import { v4 as uuid } from "uuid";
 
@@ -7,15 +7,19 @@ const Games = () => {
     const [data, setData] = useState([]);
     // eslint-disable-next-line no-unused-vars
     const [page, setPage] = useState(1);
+    const renderAfterCalled = useRef(false);
 
     // effect
     useEffect(() => {
+        if (!renderAfterCalled.current) {
         fetch(`https://api.rawg.io/api/games?key=${import.meta.env.VITE_API_KEY}&page=${page}&page_size=12`)
         .then(response => response.json())
         .then(data => {
             setData(prevData => [...prevData, ...data.results]);
         })
         .catch(error => console.error('Error fetching data:', error));
+        }
+        renderAfterCalled.current = true;
     },[page]);
 
     // Scroll event handler
