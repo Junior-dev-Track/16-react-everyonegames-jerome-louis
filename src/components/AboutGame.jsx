@@ -13,10 +13,13 @@ const AboutGame = ({ gameId }) => {
        .catch(error => console.error('Error fetching data:', error));
     }, [gameId]);
 
+
     return (
         <div className="games">
-            <h2>Game Details</h2>
-            <p>{data.name}</p> {/* Example property, adjust based on actual data structure */}
+            <div className="text">
+            <h2>{data.name}</h2>
+            <p></p>
+            </div>
         </div>
     );
 };

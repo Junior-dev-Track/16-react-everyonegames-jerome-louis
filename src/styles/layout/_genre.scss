@@ -1,0 +1,124 @@
+@import "../base/colors";
+@import "../base/global";
+@import "../base/typography";
+
+.genreContainer {
+    display: grid;
+    grid-template-columns: 1fr 2fr; 
+    grid-template-rows: auto 1fr; 
+
+    .header {
+        grid-column: 1/3;
+        grid-row: 1/2;
+    }
+
+    .navigation {
+        grid-column: 1/2;
+        grid-row: 1/3;
+    }
+
+    .genres {
+        grid-row: 2/3;
+        grid-column: 2/3;
+    }
+}
+
+.navigation{
+    li{
+        font-family: $dm-font-family;
+        font-size: $dm-font-size;
+        font-weight: $dm-font-weight;
+        color: $dm-color;
+        text-align: center;
+        text-decoration: none;
+    }
+}
+
+.navigation {
+    a {
+        text-decoration: none;
+    }
+}
+
+.genres {
+
+    h2{
+        font-family: $dm-font-family;
+        font-size: $dm-font-size;
+        font-weight: $dm-font-weight;
+        color: $dm-color;
+        text-align: center;
+    }
+    ul {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap : 2rem;
+        padding : 2rem 0;
+    }
+
+    .cardWrapper{
+        border-radius: 10%;
+        background-color: $light-black;
+        width : 80%;
+
+    .card {
+        img{
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            border-top-left-radius : 10%;
+            border-top-right-radius : 10%;
+        }
+
+        &:hover{
+            img{
+            height : 12rem;
+            transition: 0.4s;
+            }
+        }
+
+        .infos{
+            width:100%;
+            height: 5rem;
+            padding: 0.5rem 0;
+            text-align: center;
+
+            h2{
+                font-family: $dm-font-family;
+                font-size: 1.2em;
+                font-weight: $dm-font-weight;
+                color: $turquoise;
+
+            }
+
+            ul{
+                padding : 0.8rem;
+
+                li{
+                font-family: $dm-font-family;
+                font-size: 1.2em;
+                font-weight: $dm-font-weight;
+                color: $turquoise;
+                }
+            }
+
+            .moreInfo {
+                visibility: hidden;
+                display: flex;
+                flex-direction: row;
+                font-family: $dm-font-family;
+                font-size: 1em;
+                font-weight: $dm-font-weight;
+                color: $turquoise;
+                padding : 1em 0;
+            
+                &.visible {
+                    visibility: visible;
+                }
+            }
+            
+
+        }
+    }
+}
+}
