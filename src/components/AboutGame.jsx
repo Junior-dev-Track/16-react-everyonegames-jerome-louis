@@ -4,6 +4,7 @@ import { FaRegClock } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { TbTargetArrow } from "react-icons/tb";
+import reactStringReplace from 'react-string-replace';
 
 const AboutGame = ({ gameId }) => {
     const [data, setData] = useState({});
@@ -27,6 +28,24 @@ const AboutGame = ({ gameId }) => {
        .catch(error => console.error('Error fetching screenshots data:', error));
     }, [gameId]);
 
+   // Modify the content only if data is available
+let modifiedDescription = data.description;
+
+// Replace '&#39;' with an apostrophe
+modifiedDescription = reactStringReplace(modifiedDescription, /&#39;/g, (match, i) => (
+    <span key={i}>{match}</span>
+));
+
+// Replace '<p>' with a span
+modifiedDescription = reactStringReplace(modifiedDescription, /<p>/g, (match, i) => (
+    <span key={i}>{match}</span>
+));
+
+// Replace '</p>' with an empty string
+modifiedDescription = reactStringReplace(modifiedDescription, /<\/p>/g, () => '');
+
+    
+
     return (
         <div className="games">
             <div className="text">
@@ -43,6 +62,8 @@ const AboutGame = ({ gameId }) => {
                 })}
                 </ul>
             </div>
+            <h3>About</h3>
+            <p>{modifiedDescription}</p>
         </div>
     );
 };
