@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import reactStringReplace from 'react-string-replace';
 
 const AboutGame = ({ gameId }) => {
     const [data, setData] = useState([]);
