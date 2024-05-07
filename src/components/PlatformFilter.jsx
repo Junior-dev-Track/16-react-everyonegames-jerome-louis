@@ -1,63 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const PlatformFilter = () => {
-    const [platforms, setPlatforms] = useState([]);
-    const [selectedPlatformDetails, setSelectedPlatformDetails] = useState(null);
-    const navigate = useNavigate();
-
-    // Step 1: Fetch all platforms to populate the dropdown
-    useEffect(() => {
-        const API_URL = import.meta.env.VITE_API_URL;
-        const API_KEY = import.meta.env.VITE_API_KEY;
-
-        axios.get(`${API_URL}/platforms?key=${API_KEY}`)
-            .then(response => {
-                setPlatforms(response.data.results);
-            })
-            .catch(error => {
-                console.error('Error fetching platforms:', error);
-            });
-    }, []);
-
-    // Function to fetch details for a specific platform
-    const fetchPlatformDetails = (id) => {
-        const API_URL = import.meta.env.VITE_API_URL;
-        const API_KEY = import.meta.env.VITE_API_KEY;
-
-        axios.get(`${API_URL}/platforms/${id}?key=${API_KEY}`)
-            .then(response => {
-                setSelectedPlatformDetails(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching platform details:', error);
-                setSelectedPlatformDetails(null);
-            });
-    };
+    const [platforms, setPlatforms] = useState([]); // State to store platforms
 
     const handleFilterChange = (event) => {
         const selectedId = event.target.value;
-        fetchPlatformDetails(selectedId);
         navigate(`/?platforms=${encodeURIComponent(selectedId)}`);
     };
 
+
+    useEffect(() => {
+        const API_KEY = import.meta.env.VITE_API_KEY; // Ensure your API key is prefixed with VITE_
+        const fetchPlatforms = async () => {
+            try {
+                const response = await axios.get(`https://api.rawg.io/api/platforms?key=${API_KEY}`);
+                setPlatforms(response.data.results); // Assuming 'results' contains the list of platforms
+                console.log(response.data.results); // Log to see what the API returned
+            } catch (error) {
+                console.error('Error fetching platforms:', error);
+            }
+        };
+
+        fetchPlatforms();
+    }, []);
+
     return (
-        <div>
-            <select onChange={handleFilterChange}>
-                {platforms.length > 0 ? platforms.map(platform => (
-                    <option key={platform.id} value={platform.id}>{platform.name}</option>
-                )) : <option disabled>Loading platforms...</option>}
-            </select>
-            {selectedPlatformDetails && (
-                <div>
-                    <h3>{selectedPlatformDetails.name}</h3>
-                    <p>{selectedPlatformDetails.description}</p>
-                    <img src={selectedPlatformDetails.image_background} alt="Background" />
-                </div>
+        <select>
+            {platforms.length > 0 ? (
+                platforms.map((platform) => (
+                    <option key={platform.id} value={platform.id}>
+                        {platform.name}
+                    </option>
+                ))
+            ) : (
+                <option>Loading platforms...</option>
             )}
-        </div>
+        </select>
     );
 };
+
+
 
 export default PlatformFilter;
