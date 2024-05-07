@@ -42,6 +42,8 @@
 
 .games {
 
+    padding: 1em 0;
+
     h2{
         font-family: $dm-font-family;
         font-size: $dm-font-size;
@@ -111,6 +113,8 @@
                 font-size: 0.8em;
                 font-weight: $dm-font-weight;
                 color: $turquoise;
+                align-items: center;
+                justify-content: center;
             
                 &.visible {
                     visibility: visible;
