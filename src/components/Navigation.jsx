@@ -4,11 +4,11 @@ const Navigation = () => {
     return (
         <div className="navigation">
             <ul>
-               <NavLink to="/">  {/* Correspond path router */}
-                    <li>Home</li>
+                <NavLink to="/" className="nav-link">  {/* Correspond path router */}
+                    <li className="nav-link-item">Home</li>
                 </NavLink>
-                <NavLink to="/genre">
-                    <li>Genre</li>
+                <NavLink to="/genre" className="nav-link">
+                    <li className="nav-link-item">Genre</li>
                 </NavLink>
             </ul>
         </div>

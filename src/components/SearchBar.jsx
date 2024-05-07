@@ -1,63 +1,63 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 import '../styles/layout/_header.scss';
-// Import Link from react-router-dom if you're using it for navigation
-// import { Link } from 'react-router-dom';
 
 const SearchBar = () => {
     const [data, setData] = useState([]);
     const [search, setSearch] = useState("");
     const [isFocused, setIsFocused] = useState(false);
+    const navigate = useNavigate();
+    const timeoutId = useRef();
 
     useEffect(() => {
         if (search) {
             fetch(`https://api.rawg.io/api/games?key=${import.meta.env.VITE_API_KEY}&search=${search}`)
                 .then(response => response.json())
-                .then(data => {
-                    setData(data.results);
-                })
+                .then(data => setData(data.results))
                 .catch(error => console.error('Error fetching data:', error));
         }
     }, [search]);
 
-    const searchGames = () => {
-        setSearch("");
+    const handleGameClick = (gameId) => {
+        navigate(`/game/${gameId}`);
     };
 
-    const handleGameClick = (gameId) => {
-        // Here you can handle navigation or any other action on game click
-        console.log("Clicked on game with ID:", gameId);
-        // Navigate using a router or simply log for now
+    const handleFocus = () => {
+        clearTimeout(timeoutId.current);
+        setIsFocused(true);
+    };
+
+    const handleBlur = () => {
+        // Set a delay before hiding the dropdown to allow for click event to be processed
+        timeoutId.current = setTimeout(() => {
+            setIsFocused(false);
+        }, 200); // Adjust delay as necessary
     };
 
     return (
         <div className="searchBarContainer">
-            <div>
-                <input
-                    type="text"
-                    placeholder="🔍   Search 866,300 games"
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    onKeyDown={event => {
-                        if (event.key === 'Enter') {
-                            searchGames();
-                        }
-                    }}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
-                />
-                {isFocused && (
-                    <ul className="searchSuggestions">
-                        {data.map(game => (
-                            <li key={game.id}>
-                                {/* Making each game clickable */}
-                                <button onClick={() => handleGameClick(game.id)}>
-                                    {game.name}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
+            <input
+                type="text"
+                placeholder="🔍 Search 866,300 games"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                onKeyDown={event => {
+                    if (event.key === 'Enter') {
+                        setSearch("");
+                    }
+                }}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+            />
+            {isFocused && (
+                <ul className="searchSuggestions">
+                    {data.map(game => (
+                        <li key={game.id} onClick={() => handleGameClick(game.id)} style={{ cursor: 'pointer' }}>
+                            {game.name}
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 };

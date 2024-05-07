@@ -1,45 +1,58 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Card from './Card';
-// import { v4 as uuid } from "uuid";
-import { useNavigate } from 'react-router-dom';
 
 const Games = () => {
-    // state
     const [data, setData] = useState([]);
-    // eslint-disable-next-line no-unused-vars
-    const renderAfterCalled = useRef(false);
     const navigate = useNavigate();
+    const location = useLocation(); // To access query params
 
-    // effect
+    // Function to extract query parameters
+    const getPlatformId = () => new URLSearchParams(location.search).get('platforms');
+
     useEffect(() => {
-        if (!renderAfterCalled.current) {
-            fetch(`https://api.rawg.io/api/games?key=${import.meta.env.VITE_API_KEY}&page=1&page_size=12`)
-           .then(response => {
+        // Construct the API URL dynamically based on the selected platform
+        const API_KEY = import.meta.env.VITE_API_KEY;
+        const platformId = getPlatformId();
+        let url = `https://api.rawg.io/api/games?key=${API_KEY}&page=1&page_size=12`;
+        if (platformId) {
+            url += `&platforms=${platformId}`;
+        }
+
+        console.log("Fetching games from URL:", url); // Log the URL to verify it's correct
+
+        // Fetch games from the API
+        fetch(url)
+            .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
-           .then(data => {
-                setData(prevData => [...prevData,...data.results]);
+            .then(data => {
+                setData(data.results); // Update the data state with the fetched games
             })
-           .catch(error => console.error('Error fetching data:', error));
-        }
-        renderAfterCalled.current = true;
-    }, []);
-    
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                setData([]); // Clear data on error
+            });
+
+        // The cleanup function to reset data when the component unmounts or before re-fetching
+        return () => {
+            setData([]);
+        };
+    }, [location.search]); // Depend on location.search to re-run the effect when URL query params change
 
     const handleGameClick = (gameId) => {
-        navigate(`/game/${gameId}`);
-      };
-
+        navigate(`/game/${gameId}`); // Navigate to the game details page
+    };
 
     return (
         <div className="games">
             <h2>All games</h2>
             <ul>
                 {data.map((game) => (
-                <Card key={game.id} game={game} onClick={() => handleGameClick(game.id)} />
+                    <Card key={game.id} game={game} onClick={() => handleGameClick(game.id)} />
                 ))}
             </ul>
         </div>
@@ -47,62 +60,3 @@ const Games = () => {
 };
 
 export default Games;
-
-
-/* Test another method for infinte scroll
-
-import { useState } from "react";
-import Card from './Card';
-import { v4 as uuid } from "uuid";
-import InfiniteScroll from 'react-infinite-scroll-component';
-
-const Games = () => {
-    const [data, setData] = useState([]);
-    const [page, setPage] = useState(1);
-
-    const fetchMoreData = () => {
-        fetch(`https://api.rawg.io/api/games?key=${import.meta.env.VITE_API_KEY}&page=${page}&page_size=12`)
-        .then(response => response.json())
-        .then(data => {
-            setData(prevData => [...prevData, ...data.results]);
-            setPage(prevPage => prevPage + 1);
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    };
-
-    return (
-        <div className="games">
-            <h2>All games</h2>
-            <InfiniteScroll
-                dataLength={data.length}
-                next={fetchMoreData}
-                hasMore={true} // You might need to adjust this based on your API's response
-                loader={<h4>Loading...</h4>}
-            >
-                <ul>
-                    {data.map((game) => (
-                        <Card key={uuid()} game={game}/>
-                    ))}
-                </ul>
-            </InfiniteScroll>
-        </div>
-    );
-};
-
-export default Games;
-
-*/
-
-    // Scroll event handler
-    // const handleScroll = () => {
-    //     const threshold = 200; // Distance from the bottom of the page to trigger the fetch
-    //     const isNearBottom = window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - threshold;
-    //     if (isNearBottom) {
-    //         setPage(prevPage => prevPage + 1);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     window.addEventListener('scroll', handleScroll);
-    //     return () => window.removeEventListener('scroll', handleScroll);
-    // }, []);
