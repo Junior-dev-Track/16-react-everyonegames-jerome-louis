@@ -6,11 +6,11 @@ import Header from '../components/Header'
 const Genre = () => {
 
     return (
-        <div>
-            <Header />
-            <Navigation />
+        <div className='genreContainer'>
+            <Header className="header"/>
+            <Navigation className="navigation" />
             <h1>Genres</h1>
-            <Categories />
+            <Categories className="genres"/>
         </div>
     );
 };

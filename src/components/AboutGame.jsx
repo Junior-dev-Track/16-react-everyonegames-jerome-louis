@@ -16,7 +16,7 @@ const AboutGame = ({ gameId }) => {
     return (
         <div className="games">
             <h2>Game Details</h2>
-            <p>{data.name}</p> {/* Example property, adjust based on actual data structure */}
+            <p>{data.name}</p>
         </div>
     );
 };
