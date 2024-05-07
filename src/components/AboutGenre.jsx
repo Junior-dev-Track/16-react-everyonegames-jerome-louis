@@ -24,15 +24,20 @@ const AboutGenre = ({ categoryId }) => {
 
         // Replace '<p>' with an empty string (or any other replacement)
         modifiedDescription = reactStringReplace(modifiedDescription, /<p>/g, (match, i) => (
-            <span key={i}></span>
+            <span key={i}>{match}</span>
+        ));
+
+         // Replace '</p>' with an empty string
+         modifiedDescription = reactStringReplace(modifiedDescription, /<\/p>/g, (match, i) => (
+            <span key={i}>{match}</span>
         ));
     }
 
     return (
         <div className="genres">
-            <img src={data?.image_background} alt="category image" /> {/* Optional chaining */}
+            <img src={data?.image_background} alt="category image" /> 
             <div className="text">
-            <h2>{data?.name} Games</h2> {/* Optional chaining */}
+            <h2>{data?.name} Games</h2> 
             <p>{modifiedDescription}</p>
             </div>
         </div>

@@ -6,11 +6,10 @@ import AboutGame from '../components/AboutGame';
 const Details = () => {
     const { id: gameId } = useParams();
     return (
-        <div>
-            <Header />
-            <Navigation />
-            <h1>Game Details</h1>
-            <AboutGame gameId={gameId} />
+        <div className='container'>
+            <Header className="header" />
+            <Navigation className="navigation"/>
+            <AboutGame className="game" gameId={gameId} />
         </div>
     );
 };

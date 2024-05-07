@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
+import reactStringReplace from 'react-string-replace';
 
 const AboutGame = ({ gameId }) => {
     const [data, setData] = useState([]);
@@ -13,10 +14,13 @@ const AboutGame = ({ gameId }) => {
        .catch(error => console.error('Error fetching data:', error));
     }, [gameId]);
 
+
     return (
         <div className="games">
-            <h2>Game Details</h2>
-            <p>{data.name}</p>
+            <div className="text">
+            <h2>{data.name}</h2>
+            <p></p>
+            </div>
         </div>
     );
 };
