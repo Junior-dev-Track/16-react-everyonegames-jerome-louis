@@ -6,10 +6,10 @@ import AboutGenre from '../components/AboutGenre';
 const Details = () => {
     const { id: categoryId } = useParams();
     return (
-        <div>
-            <Header />
-            <Navigation />
-            <AboutGenre categoryId={categoryId} />
+        <div className='detailsContainer'>
+            <Header className="header"/>
+            <Navigation className="navigation" />
+            <AboutGenre className="genre" categoryId={categoryId} />
         </div>
     );
 };

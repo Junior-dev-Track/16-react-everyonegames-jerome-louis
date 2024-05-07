@@ -4,8 +4,8 @@
 
 .genreContainer {
     display: grid;
-    grid-template-columns: 1fr 2fr; // Creates a grid with two columns
-    grid-template-rows: auto 1fr; // Specifies the rows heights, first row auto-sized, second row takes the remaining space
+    grid-template-columns: 1fr 2fr; 
+    grid-template-rows: auto 1fr; 
 
     .header {
         grid-column: 1/3;
