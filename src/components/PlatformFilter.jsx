@@ -4,40 +4,60 @@ import axios from 'axios';
 
 const PlatformFilter = () => {
     const [platforms, setPlatforms] = useState([]);
+    const [selectedPlatformDetails, setSelectedPlatformDetails] = useState(null);
     const navigate = useNavigate();
 
+    // Step 1: Fetch all platforms to populate the dropdown
     useEffect(() => {
-        const API_URL = process.env.VITE_API_URL;
-        const API_KEY = process.env.VITE_API_KEY;
+        const API_URL = import.meta.env.VITE_API_URL;
+        const API_KEY = import.meta.env.VITE_API_KEY;
 
         axios.get(`${API_URL}/platforms?key=${API_KEY}`)
             .then(response => {
-                // Assuming each result might have its own platforms array, we aggregate all unique platforms
-                const allPlatforms = new Map();
-                response.data.results.forEach(item => {
-                    item.platforms.forEach(platform => {
-                        if (!allPlatforms.has(platform.id)) {
-                            allPlatforms.set(platform.id, platform);
-                        }
-                    });
-                });
-                setPlatforms([...allPlatforms.values()]);
+                setPlatforms(response.data.results);
             })
-            .catch(error => console.error('Error fetching platforms:', error));
+            .catch(error => {
+                console.error('Error fetching platforms:', error);
+            });
     }, []);
 
-    const handleFilterChange = (value) => {
-        // Navigate, adding platform filter to the URL
-        navigate(`/?platforms=${encodeURIComponent(value)}`);
+    // Function to fetch details for a specific platform
+    const fetchPlatformDetails = (id) => {
+        const API_URL = import.meta.env.VITE_API_URL;
+        const API_KEY = import.meta.env.VITE_API_KEY;
+
+        axios.get(`${API_URL}/platforms/${id}?key=${API_KEY}`)
+            .then(response => {
+                setSelectedPlatformDetails(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching platform details:', error);
+                setSelectedPlatformDetails(null);
+            });
+    };
+
+    const handleFilterChange = (event) => {
+        const selectedId = event.target.value;
+        fetchPlatformDetails(selectedId);
+        navigate(`/?platforms=${encodeURIComponent(selectedId)}`);
     };
 
     return (
-        <select onChange={(e) => handleFilterChange(e.target.value)}>
-            {platforms.map(platform => (
-                <option key={platform.id} value={platform.id}>{platform.name}</option>
-            ))}
-        </select>
+        <div>
+            <select onChange={handleFilterChange}>
+                {platforms.length > 0 ? platforms.map(platform => (
+                    <option key={platform.id} value={platform.id}>{platform.name}</option>
+                )) : <option disabled>Loading platforms...</option>}
+            </select>
+            {selectedPlatformDetails && (
+                <div>
+                    <h3>{selectedPlatformDetails.name}</h3>
+                    <p>{selectedPlatformDetails.description}</p>
+                    <img src={selectedPlatformDetails.image_background} alt="Background" />
+                </div>
+            )}
+        </div>
     );
-}
+};
 
 export default PlatformFilter;
