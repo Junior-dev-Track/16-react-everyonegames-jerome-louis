@@ -1,0 +1,11 @@
+@import "../base/colors";
+
+.filter-button {
+  width: 100%;
+  max-width: 600px;
+  padding: 8px;
+  margin-bottom: 20px;
+  background-color: $white;
+  border: 1px solid $light-brown;
+  border-radius: 4px;
+}
