@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import { FaWindows, FaPlaystation, FaXbox, FaAppStoreIos, FaApple, FaLinux, FaStar, FaCalendarAlt } from "react-icons/fa";
@@ -34,12 +36,6 @@ const Card = ({ game, onClick }) => {
         setCurrentIndex((prevIndex) => (prevIndex === screenshots.length - 1 ? 0 : prevIndex + 1));
     };
 
-    /*const handleCardClick = () => {
-        // Only trigger the onClick event for viewing game details if not hovered over to view screenshots
-        if (!isHovered || screenshots.length === 0) {
-            onClick(game.id);
-        }
-    };*/
 
     return (
         <div className="cardWrapper" onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>

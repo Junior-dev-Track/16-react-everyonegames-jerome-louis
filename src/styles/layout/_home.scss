@@ -81,7 +81,7 @@
 
         &:hover{
             img{
-            height : 11rem;
+            height : 10rem;
             transition: 0.4s;
             }
         }
@@ -119,8 +119,7 @@
                 font-size: 0.8em;
                 font-weight: $dm-font-weight;
                 color: $turquoise;
-                align-items: center;
-                justify-content: center;
+
             
                 &.visible {
                     visibility: visible;
