@@ -12,17 +12,17 @@ const Games = () => {
         const queryParams = new URLSearchParams(location.search);
         let url = `https://api.rawg.io/api/games?key=${API_KEY}&page=1&page_size=12`;
 
-        // Include platform filter if it exists
-        if (queryParams.get('platforms')) {
-            url += `&platforms=${queryParams.get('platforms')}`;
+        const platformId = queryParams.get('platforms');
+        const dates = queryParams.get('dates');
+
+        if (platformId) {
+            url += `&platforms=${platformId}`;
+        }
+        if (dates) {
+            url += `&dates=${dates}`;
         }
 
-        // Include date filter if it exists
-        if (queryParams.get('dates')) {
-            url += `&dates=${queryParams.get('dates')}`;
-        }
-
-        console.log("Fetching games from URL:", url); // Log the URL to verify it's correct
+        console.log("Fetching games from URL:", url);
 
         fetch(url)
             .then(response => {
@@ -32,13 +32,13 @@ const Games = () => {
                 return response.json();
             })
             .then(data => {
-                setData(data.results); // Update the data state with the fetched games
+                setData(data.results);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
-                setData([]); // Clear data on error
+                setData([]);
             });
-    }, [location.search]); // Depend on location.search to re-run the effect when URL query params change
+    }, [location.search]);
 
     const handleGameClick = (gameId) => {
         navigate(`/game/${gameId}`);

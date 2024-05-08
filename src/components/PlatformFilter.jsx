@@ -23,13 +23,17 @@ const PlatformFilter = () => {
 
     const handleFilterChange = (event) => {
         const selectedId = event.target.value;
-        console.log(`Navigating to new platform with ID: ${selectedId}`);
-        navigate(`/?platforms=${encodeURIComponent(selectedId)}`);
+        if (selectedId === "all") {
+            navigate(`/?`);
+        } else {
+            navigate(`/?platforms=${encodeURIComponent(selectedId)}`);
+        }
     };
 
     return (
         <select className="filter-button" onChange={handleFilterChange}>
             <option disabled selected>Filter by platform</option>
+            <option value="all">All Platforms</option>
             {platforms.length > 0 ? (
                 platforms.map((platform) => (
                     <option key={platform.id} value={platform.id}>
