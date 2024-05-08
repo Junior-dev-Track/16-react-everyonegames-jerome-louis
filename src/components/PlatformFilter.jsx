@@ -32,7 +32,7 @@ const PlatformFilter = () => {
 
     return (
         <select className="filter-button" onChange={handleFilterChange}>
-            <option disabled selected>Filter by platform</option>
+            <option disabled selected>Filter by platforms</option>
             <option value="all">All Platforms</option>
             {platforms.length > 0 ? (
                 platforms.map((platform) => (
