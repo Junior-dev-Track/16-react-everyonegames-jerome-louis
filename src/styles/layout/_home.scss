@@ -61,7 +61,7 @@
     }
 
     .cardWrapper{
-        border-radius: 10%;
+        border-radius: 5px;
         background-color: $light-black;
         width : 80%;
     }
@@ -72,16 +72,18 @@
             height: 200px;
             width: 100%;
             object-fit: cover;
-            // border-top-left-radius : 10%;
-            // border-top-right-radius : 10%;
+            transition: height 1s;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
         }
 
-        &:hover{
-            img{
+       
+        &:hover img{
             height : 10rem;
-            transition: 0.4s;
             }
-        }
+        
 
         .infos{
             width:100%;
@@ -119,7 +121,6 @@
                 color: $turquoise;
                 align-items: center;
                 justify-content: center;
-
                 padding-left: 1.1em;
                 
 
