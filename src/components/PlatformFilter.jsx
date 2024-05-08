@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,7 +29,7 @@ const PlatformFilter = () => {
 
     return (
         <select className="filter-button" onChange={handleFilterChange}>
-            <option disabled selected>Filter by platform</option>
+            <option disabled selected>Platforms</option>
             {platforms.length > 0 ? (
                 platforms.map((platform) => (
                     <option key={platform.id} value={platform.id}>
