@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { format, startOfWeek, startOfMonth, startOfYear } from 'date-fns';
 

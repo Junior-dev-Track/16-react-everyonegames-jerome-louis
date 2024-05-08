@@ -3,28 +3,13 @@ import { v4 as uuid } from "uuid";
 import { FaWindows, FaPlaystation, FaXbox, FaAppStoreIos, FaApple, FaLinux, FaStar, FaCalendarAlt } from "react-icons/fa";
 import { SiNintendo } from "react-icons/si";
 import { IoLogoAndroid } from "react-icons/io";
-import getColors from 'get-image-colors';
 
 const Card = ({ game, onClick }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [screenshots, setScreenshots] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [backgroundColor, setBackgroundColor] = useState('rgba(0,0,0,0.5)'); // Default background color
 
-    useEffect(() => {
-        if (game.background_image) {
-            getColors(game.background_image)
-                .then(colors => {
-                    // colors is an array of color instances
-                    const dominantColor = colors[0].rgb().join(',');
-                    setBackgroundColor(`rgba(${dominantColor},0.5)`);
-                })
-                .catch(err => {
-                    console.error('Error extracting colors:', err);
-                    setBackgroundColor('rgba(64,64,64,0.5)'); // Fallback color
-                });
-        }
-    }, [game.background_image]);
+    
 
     const handleMouseEnter = async () => {
         setIsHovered(true);
@@ -52,7 +37,7 @@ const Card = ({ game, onClick }) => {
     };
 
     return (
-        <div className="cardWrapper" onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ backgroundColor }}>
+        <div className="cardWrapper" onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <li className="card">
                 {isHovered && screenshots.length > 0 ? (
                     <div className="carousel">
