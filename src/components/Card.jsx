@@ -1,47 +1,82 @@
-/* eslint-disable react/prop-types */
-import { v4 as uuid } from "uuid";
 import { useState } from "react";
-import { FaWindows } from "react-icons/fa";
-import { FaPlaystation } from "react-icons/fa";
-import { FaXbox } from "react-icons/fa";
-import { FaAppStoreIos } from "react-icons/fa";
-import { FaApple } from "react-icons/fa";
-import { FaLinux } from "react-icons/fa";
+import { v4 as uuid } from "uuid";
+import { FaWindows, FaPlaystation, FaXbox, FaAppStoreIos, FaApple, FaLinux, FaStar, FaCalendarAlt } from "react-icons/fa";
 import { SiNintendo } from "react-icons/si";
 import { IoLogoAndroid } from "react-icons/io";
-import { FaStar } from "react-icons/fa";
-import { FaCalendarAlt } from "react-icons/fa";
 
 const Card = ({ game, onClick }) => {
     const [isHovered, setIsHovered] = useState(false);
+    const [screenshots, setScreenshots] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
-    const handleMouseEnter = () => setIsHovered(true);
-    const handleMouseLeave = () => setIsHovered(false);
+    const handleMouseEnter = async () => {
+        setIsHovered(true);
+        try {
+            const response = await fetch(`https://api.rawg.io/api/games/${game.id}/screenshots?key=${import.meta.env.VITE_API_KEY}`);
+            const data = await response.json();
+            setScreenshots(data.results);
+        } catch (error) {
+            console.error('Error fetching screenshots data:', error);
+        }
+    };
 
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+    };
+
+    const handlePrevClick = (e) => {
+        e.stopPropagation(); // Prevents onClick from firing when navigating screenshots
+        setCurrentIndex((prevIndex) => (prevIndex === 0 ? screenshots.length - 1 : prevIndex - 1));
+    };
+
+    const handleNextClick = (e) => {
+        e.stopPropagation(); // Prevents onClick from firing when navigating screenshots
+        setCurrentIndex((prevIndex) => (prevIndex === screenshots.length - 1 ? 0 : prevIndex + 1));
+    };
+
+    /*const handleCardClick = () => {
+        // Only trigger the onClick event for viewing game details if not hovered over to view screenshots
+        if (!isHovered || screenshots.length === 0) {
+            onClick(game.id);
+        }
+    };*/
 
     return (
         <div className="cardWrapper" onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <li className="card">
-                <img src={game.background_image} alt="Game image" />
+                {isHovered && screenshots.length > 0 ? (
+                    <div className="carousel">
+                        <button className="carouselButton prev" onClick={handlePrevClick}>&#10094;</button>
+                        <div className="carouselContainer">
+                            {screenshots.map((screenshot, index) => (
+                                <div key={screenshot.id} className="screenshotContainer" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+                                    <img src={screenshot.image} alt="Screenshot" />
+                                </div>
+                            ))}
+                        </div>
+                        <button className="carouselButton next" onClick={handleNextClick}>&#10095;</button>
+                    </div>
+                ) : (
+                    <img src={game.background_image} alt="Game image" />
+                )}
                 <div className="infos">
                     <h2>{game.name}</h2>
                     <ul>
-                        {game.parent_platforms.slice(0, 3).map((platformObj) => (
+                        {game.parent_platforms.slice(0,3).map((platformObj) => (
                             <li key={uuid()}>
-                                {platformObj.platform.id === 1 && <FaWindows /> }
-                                {platformObj.platform.id === 2 && <FaPlaystation /> }
-                                {platformObj.platform.id === 3 && <FaXbox /> }
-                                {platformObj.platform.id === 4 && <FaAppStoreIos /> }
-                                {platformObj.platform.id === 5 && <FaApple /> }
-                                {platformObj.platform.id === 6 && <FaLinux /> }
-                                {platformObj.platform.id === 7 && <SiNintendo /> }
-                                {platformObj.platform.id === 8 && <IoLogoAndroid /> }
-
+                                {platformObj.platform.id === 1 && <FaWindows />}
+                                {platformObj.platform.id === 2 && <FaPlaystation />}
+                                {platformObj.platform.id === 3 && <FaXbox />}
+                                {platformObj.platform.id === 4 && <FaAppStoreIos />}
+                                {platformObj.platform.id === 5 && <FaApple />}
+                                {platformObj.platform.id === 6 && <FaLinux />}
+                                {platformObj.platform.id === 7 && <SiNintendo />}
+                                {platformObj.platform.id === 8 && <IoLogoAndroid />}
                             </li>
                         ))}
                     </ul>
-                    <div className={`moreInfo ${isHovered? 'visible' : ''}`}>
-                        <p>{game.released} <FaCalendarAlt color="white"fontSize="1em" /></p>
+                    <div className={`moreInfo ${isHovered ? 'visible' : ''}`}>
+                        <p>{game.released} <FaCalendarAlt color="white" fontSize="1em" /></p>
                         <p>{game.rating} <FaStar color="orange" fontSize="1em" /></p>
                     </div>
                 </div>
@@ -51,20 +86,3 @@ const Card = ({ game, onClick }) => {
 };
 
 export default Card;
-
-/*
-    return (
-    <div>
-      <h1>{game.name}</h1>
-      <div>
-        {game.platforms.map((platform) => (
-          <div key={platform.id}>
-            {platform.id === 1 && <FaWindows />}
-            <span>{platform.name}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-*/
