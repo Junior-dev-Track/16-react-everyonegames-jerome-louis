@@ -7,21 +7,19 @@ const Games = () => {
     const navigate = useNavigate();
     const location = useLocation(); // To access query params
 
-    // Function to extract query parameters
-    const getPlatformId = () => new URLSearchParams(location.search).get('platforms');
+    // Function to extract date range from query parameters
+    const getDateFilter = () => new URLSearchParams(location.search).get('dates');
 
     useEffect(() => {
-        // Construct the API URL dynamically based on the selected platform
         const API_KEY = import.meta.env.VITE_API_KEY;
-        const platformId = getPlatformId();
+        const dates = getDateFilter();
         let url = `https://api.rawg.io/api/games?key=${API_KEY}&page=1&page_size=12`;
-        if (platformId) {
-            url += `&platforms=${platformId}`;
+        if (dates) {
+            url += `&dates=${dates}`;
         }
 
         console.log("Fetching games from URL:", url); // Log the URL to verify it's correct
 
-        // Fetch games from the API
         fetch(url)
             .then(response => {
                 if (!response.ok) {
@@ -36,11 +34,6 @@ const Games = () => {
                 console.error('Error fetching data:', error);
                 setData([]); // Clear data on error
             });
-
-        // The cleanup function to reset data when the component unmounts or before re-fetching
-        return () => {
-            setData([]);
-        };
     }, [location.search]); // Depend on location.search to re-run the effect when URL query params change
 
     const handleGameClick = (gameId) => {
