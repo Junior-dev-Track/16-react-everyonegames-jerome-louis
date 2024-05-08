@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import PlatformFilter from '../components/PlatformFilter';
+import RecentGamesFilter from '../components/RecentGamesFilter';
 
 const Navigation = () => {
     return (
@@ -11,8 +12,12 @@ const Navigation = () => {
                 <NavLink to="/genre" className="nav-link">
                     <li className="nav-link-item">Genre</li>
                 </NavLink>
+               
             </ul>
-            <PlatformFilter />
+            <div className="filtersContainer">
+                <PlatformFilter />
+                <RecentGamesFilter />
+            </div>
         </div>
     );
 };

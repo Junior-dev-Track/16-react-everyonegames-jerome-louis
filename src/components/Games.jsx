@@ -1,22 +1,21 @@
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Card from './Card';
-import { FaArrowLeft } from "react-icons/fa";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const Games = () => {
     const [data, setData] = useState([]);
-    const [pageCount, setPageCount] = useState(1); // Use useState for pageCount
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation();
 
     useEffect(() => {
         const API_KEY = import.meta.env.VITE_API_KEY;
-        const queryParams = new URLSearchParams(location.search);
         let url = `https://api.rawg.io/api/games?key=${API_KEY}&page=1&page_size=12`;
 
-        const platformId = queryParams.get('platforms');
-        const dates = queryParams.get('dates');
+        const platformId = searchParams.get('platforms');
+        const dates = searchParams.get('dates');
+        const page = searchParams.get('page') || '1'; // Get page from query params
 
         if (platformId) {
             url += `&platforms=${platformId}`;
@@ -24,35 +23,38 @@ const Games = () => {
         if (dates) {
             url += `&dates=${dates}`;
         }
+        url += `&page=${page}`; // Ensure page is included in the URL
 
         fetch(url)
-           .then(response => {
+        .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
-            .then(data => {
+         .then(data => {
                 setData(data.results);
             })
-           .catch(error => {
+        .catch(error => {
                 console.error('Error fetching data:', error);
                 setData([]);
             });
-    }, [location.search, pageCount]); // Depend on location.search and pageCount to re-run the effect when either changes
+    }, [location.search]); // Depend on location.search to re-run the effect when it changes
 
     const handleGameClick = (gameId) => {
         navigate(`/game/${gameId}`);
     };
 
     const handleButtonRightClick = () => {
-        setPageCount(prevPageCount => prevPageCount + 1); // Update pageCount state
-        // No need to fetch again here, as useEffect will handle it
+        const newPageCount = parseInt(searchParams.get('page')) || 1;
+        setSearchParams({ page: newPageCount + 1 }); // Update page count in URL
     };
 
     const handleButtonLeftClick = () => {
-        setPageCount(prevPageCount => prevPageCount > 1? prevPageCount - 1 : prevPageCount); // Prevent going below 1
-        // No need to fetch again here, as useEffect will handle it
+        const newPageCount = parseInt(searchParams.get('page')) || 1;
+        if (newPageCount > 1) {
+            setSearchParams({ page: newPageCount - 1 }); // Update page count in URL
+        }
     };
 
     return (
