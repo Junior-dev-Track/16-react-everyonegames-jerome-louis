@@ -1,12 +1,15 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { format, startOfWeek, startOfMonth, startOfYear } from 'date-fns';
 
 const RecentGamesFilter = () => {
     const navigate = useNavigate();
+    const location = useLocation(); // To retain other query parameters
+
     const handleFilterChange = (event) => {
         const today = format(new Date(), 'yyyy-MM-dd');
         let startDate;
+        const queryParams = new URLSearchParams(location.search);
 
         switch (event.target.value) {
             case 'week':
@@ -22,8 +25,11 @@ const RecentGamesFilter = () => {
                 return;  // Do nothing if an invalid option is selected
         }
 
-        // Update the URL with the selected date range
-        navigate(`/?dates=${startDate},${today}`);
+        // Set or replace the 'dates' parameter without affecting others
+        queryParams.set('dates', `${startDate},${today}`);
+
+        // Update the URL with combined query parameters
+        navigate(`/?${queryParams.toString()}`);
     };
 
     return (

@@ -5,17 +5,21 @@ import Card from './Card';
 const Games = () => {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
-    const location = useLocation(); // To access query params
-
-    // Function to extract date range from query parameters
-    const getDateFilter = () => new URLSearchParams(location.search).get('dates');
+    const location = useLocation();
 
     useEffect(() => {
         const API_KEY = import.meta.env.VITE_API_KEY;
-        const dates = getDateFilter();
+        const queryParams = new URLSearchParams(location.search);
         let url = `https://api.rawg.io/api/games?key=${API_KEY}&page=1&page_size=12`;
-        if (dates) {
-            url += `&dates=${dates}`;
+
+        // Include platform filter if it exists
+        if (queryParams.get('platforms')) {
+            url += `&platforms=${queryParams.get('platforms')}`;
+        }
+
+        // Include date filter if it exists
+        if (queryParams.get('dates')) {
+            url += `&dates=${queryParams.get('dates')}`;
         }
 
         console.log("Fetching games from URL:", url); // Log the URL to verify it's correct
@@ -37,7 +41,7 @@ const Games = () => {
     }, [location.search]); // Depend on location.search to re-run the effect when URL query params change
 
     const handleGameClick = (gameId) => {
-        navigate(`/game/${gameId}`); // Navigate to the game details page
+        navigate(`/game/${gameId}`);
     };
 
     return (
