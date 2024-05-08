@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import { FaWindows, FaPlaystation, FaXbox, FaAppStoreIos, FaApple, FaLinux, FaStar, FaCalendarAlt } from "react-icons/fa";
 import { SiNintendo } from "react-icons/si";
