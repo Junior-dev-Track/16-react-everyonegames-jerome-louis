@@ -15,7 +15,7 @@
 
     .navigation {
         grid-column: 1/2; 
-        grid-row: 2/4; 
+        grid-row: 1/4; 
     }
 
     .games {
@@ -72,8 +72,8 @@
             height: 200px;
             width: 100%;
             object-fit: cover;
-            border-top-left-radius : 10%;
-            border-top-right-radius : 10%;
+            // border-top-left-radius : 10%;
+            // border-top-right-radius : 10%;
         }
 
         &:hover{

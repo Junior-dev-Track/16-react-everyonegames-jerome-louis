@@ -29,7 +29,7 @@ const AboutGame = ({ gameId }) => {
     }, [gameId]);
 
    // Modify the content only if data is available
-let modifiedDescription = data.description;
+let modifiedDescription = data.description_raw;
 
 // Replace '&#39;' with an apostrophe
 modifiedDescription = reactStringReplace(modifiedDescription, /&#39;/g, (match, i) => (
